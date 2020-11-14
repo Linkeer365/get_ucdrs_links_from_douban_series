@@ -1,0 +1,2 @@
+# get_ucdrs_links_from_douban_series
+业务转型，现在我要获取所有的豆瓣series所列书籍的对应的ucdrs链接
