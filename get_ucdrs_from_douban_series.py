@@ -198,30 +198,52 @@ def get_ucdrs_links(some_isbn,title):
     ssids_links={ssid:link for ssid,link in zip(ssids,links) if ssid!=""}
     print(ssids_links)
 
-    if ssids==[""] or bool(ssids)==0:
+    if ssids==[""] or bool(ssids)==0 or ssids_links=={}:
         return []
 
-    info_patt="//span[@class='fc-green']//text()"
-    ssid_infos = html.xpath (info_patt)
-    ssid_infos2=[]
-    # 这个数字可以设得很大...
-    for each in range(1,100):
-    # 注意这里是>=，逻辑细节！！
-        if len(ssid_infos)>=8*each:
-            ssid_info="".join(ssid_infos[8*(each-1):8*each])
-            ssid_infos2.append(ssid_info)
-        else:
-            break
-    ssid_infos=ssid_infos2
-    ssid_infos=ssid_infos[0:len(ssids)]
+    info_patt_node="//span[@class='fc-green']"
+    ssid_info_nodes = html.xpath (info_patt_node)
+
+    ssid_infos=[]
+
+    for each_node in ssid_info_nodes:
+        info=each_node.xpath("string(.)")
+        print("info: ",info)
+        ssid_infos.append(info)
+
+    # 匹配单个标签下的所有内容
+    # https://blog.csdn.net/t8116189520/article/details/80367549
+
+    # 这样不管它是先出现 dxid 还是 先出现 ssid， 都可以顺利处理了!
+
+
+
+    # ssid_infos2=[]
+    # # 这个数字可以设得很大...
+
+    # print("before ssid_info,",ssid_infos)
+
+    # for each in range(1,100):
+    # # 注意这里是>=，逻辑细节！！
+    #     if len(ssid_infos)>=8*each:
+    #         ssid_info="".join(ssid_infos[8*(each-1):8*each])
+    #         ssid_infos2.append(ssid_info)
+    #     else:
+    #         break
+    # ssid_infos=ssid_infos2
+    # ssid_infos=ssid_infos[0:len(ssids)]
 
     print("ssids:\t",ssids)
     print("ssid-infos:\t",ssid_infos)
+
+    option_idx=0
+
     for each_idx,each_info in enumerate(ssid_infos,1):
         if ssids[each_idx-1]:
             print(each_info,"\t\t\t",each_idx)
+            option_idx=each_idx-1
     if len(ssids_links)==1:
-        choice_idxs=[0]
+        choice_idxs=[option_idx]
     elif len(ssids_links)>=2:
         choice_idxs_in=input("Your choice(multiple is ok, split by ,):")
         choice_idxs=[int(each)-1 for each in choice_idxs_in.split(",")]
@@ -243,9 +265,12 @@ def get_ucdrs_links(some_isbn,title):
 
     return ucdrs_links
 
+# get_ucdrs_links("9787214158116","cc")
+# sys.exit(0)
+
     # 确实是逐个对应的！
     # print('links',links)
-    # print('links len',len(links))
+    # print('links len',len(links))r
     # print('ssids',ssids)
     # print('ssids len',len(ssids))
 
