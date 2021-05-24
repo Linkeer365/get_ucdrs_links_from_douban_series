@@ -19,6 +19,7 @@ title_isbn_path=r"D:\get_ucdrs_links_from_douban_series\title_isbns.txt"
 info_link_path=r"D:\get_ucdrs_links_from_douban_series\info_links.txt"
 
 already_path=r"D:\get_ucdrs_links_from_douban_series\already_buy.txt"
+already_path2=r"D:\compare_buy\already_buy.txt"
 
 visited_pages_path=r"D:\get_ucdrs_links_from_douban_series\visited_pages.txt"
 
@@ -320,6 +321,12 @@ def main():
         f.write("\n")
         f.write(ucdrs_links_s)
         f.write("\n")
+
+    with open(already_path2,"a",encoding="utf-8") as f:
+        f.write("\n")
+        f.write(ucdrs_links_s)
+        f.write("\n")
+
 
     with open(today_buy_path,"a",encoding="utf-8") as f:
         f.write("\n")
